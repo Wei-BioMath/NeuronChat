@@ -1,0 +1,24 @@
+Package: NeuronChat
+Title: Inference of neural-specific cell-cell communication from single cell transcriptomics
+Version: 1.0.0
+Authors@R: c(person("Wei", "Zhao", role = c("aut", "cre"), email = "zhaow17@uci.edu"))
+Description: an open source R package that infers, visualizes and analyzes the neural-specific cell-cell communication networks from single cell transcriptomics
+License: `use_gpl3_license()`
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Depends: R (>= 4.1.1),dplyr,igraph,ggplot2
+Imports: 
+    CellChat,
+    circlize,
+    ComplexHeatmap,
+    data.table,
+    ggalluvial,
+    ggplot2,
+    NMF,
+    Seurat,
+    SeuratObject
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
