@@ -19,3 +19,4 @@ devtools::install_github("Wei-BioMath/NeuronChat")
 Please check the vignettes directory of the repo.
 
 
+# NeuronChat
