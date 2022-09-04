@@ -22,3 +22,4 @@ usethis::use_package("ggplot2")
 
 usethis::use_vignette("NeuronChat-tmp")
 usethis::use_readme_md(open = rlang::is_interactive())
+rmarkdown::html_document()

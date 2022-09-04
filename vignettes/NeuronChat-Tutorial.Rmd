@@ -1,7 +1,7 @@
 ---
 title: "Inference and analysis of neural-specific cell-cell communication using NeuronChat"
 author: "Wei Zhao"
-output: rmarkdown::html_vignette
+output: rmarkdown::html_document
 vignette: >
   %\VignetteIndexEntry{NeuronChat-Tutorial}
   %\VignetteEngine{knitr::rmarkdown}
@@ -17,12 +17,14 @@ knitr::opts_chunk$set(fig.width=6, fig.height=6,fig.align = "center")
 ```
 
 # Load NeuronChat library
+
 ```{r setup}
 library(NeuronChat)
 library(CellChat)
 ```
 
 # Part I: Create NeuronChat object
+
 ```{r}
 # load example data: cortex data from Yao 2021, processed
 data(list='cortex_data')
@@ -40,6 +42,7 @@ x <- createNeuronChat(t(as.matrix(target_df_single[,1:(dim(target_df_single)[2]-
 ```
 
 # Part II: Run NeuronChat to infer the neural-specific cell-cell communication networks
+
 ```{r}
 # M is for the permutation test; typically ~4 mins when M=100, depending on the dataset size and the number of cell groups
 # setting M=10 to get a quick start
@@ -50,7 +53,9 @@ net_aggregated_x <- net_aggregation(x@net,method = 'weight')
 ```
 
 # Part III: Visualization of neural-specific cell-cell communication networks
+
 ## for aggregated network
+
 ```{r fig00, fig.height = 6, fig.width = 12}
 par(mfrow=c(1,2))
 # Visualization, circle plot, for the aggregated network
@@ -65,6 +70,7 @@ heatmap_aggregated(x, method='weight',group=group)
 ```
 
 ## for individual network
+
 ```{r fig1, fig.width=12, fig.height=6}
 par(mfrow=c(1,2))
 # Visualization for the single interaction pair, circle plot  
@@ -82,15 +88,15 @@ heatmap_single(x,interaction_name='Glu_Gria2',group=group)
 # Visualization for the single interaction pair, heatmap with violin plots showing expression of genes realted to ligand and target
 lig_tar_heatmap(x,interaction_name='Glu_Gria2',width.vector=c(0.38,0.35,0.27))
 ```
-# Part IV: Analysis of communication 
+
+# Part IV: Analysis of communication
 
 ## barplot show the count of links or information flow for all interaction pairs
-{r fig4, fig.height = 12, fig.width = 6}
-g1 <- rankNet_Neuron(x,slot.name = "net",measure = c("weight"),mode='single',font.size = 5)
-g2 <- rankNet_Neuron(x,slot.name = "net",measure = c("count"),mode='single',font.size = 5)
-g1+g2
+
+{r fig4, fig.height = 12, fig.width = 6} g1 \<- rankNet_Neuron(x,slot.name = "net",measure = c("weight"),mode='single',font.size = 5) g2 \<- rankNet_Neuron(x,slot.name = "net",measure = c("count"),mode='single',font.size = 5) g1+g2
 
 ## outgoing/incoming pattern
+
 ```{r}
 # selectK_Neuron(x,pattern = "outgoing")
 # selectK_Neuron(x,pattern = "incoming")
@@ -100,7 +106,9 @@ library(ggalluvial)
 netAnalysis_river_Neuron(x,slot.name = "net", pattern = c("outgoing"),font.size = 2.5,cutoff.1 = 0.5,cutoff.2=0.5)
 netAnalysis_river_Neuron(x,slot.name = "net", pattern = c("incoming"),font.size = 2.5,cutoff.1 = 0.5,cutoff.2=0.5)
 ```
+
 ## manifold learning and classification
+
 ```{r}
 x <- computeNetSimilarity_Neuron(x,type='functional')
 x  <- CellChat::netEmbedding(x, slot.name = "net_analysis", type = "functional")
@@ -108,6 +116,3 @@ x <- CellChat::netClustering(x, type='functional',slot.name = "net_analysis",k=5
 netVisual_embedding_Neuron(x, type = "functional", label.size = 5,pathway.remove.show = F)
 netVisual_embeddingZoomIn_Neuron(x, type = "functional", nCol = 2,label.size = 3)
 ```
-
-
-
