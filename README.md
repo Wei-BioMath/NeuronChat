@@ -16,4 +16,6 @@ devtools::install_github("Wei-BioMath/NeuronChat")
 
 ## Tutorial 
 
-Please check the vignettes directory of the repo.
+Please check the vignettes directory of the repo (or click [this link](https://htmlpreview.github.io/?https://github.com/Wei-BioMath/NeuronChat/blob/main/vignettes/NeuronChat-Tutorial.html
+)). 
+
