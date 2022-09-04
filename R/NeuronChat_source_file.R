@@ -1,20 +1,3 @@
-library(data.table)
-library(CellChat)
-library(patchwork)
-library(rhdf5)
-library(bigstatsr)
-library(Matrix)
-library(pryr);library(dplyr);
-library(gtools)
-library(visNetwork)
-library(RColorBrewer)
-library(ComplexHeatmap)
-library(PRROC)
-library(foreach)
-library(doParallel)
-library(future.apply)
-library(future)
-
 #' The NeuronChat Class
 #'# Class definitions
 #' @importFrom methods setClassUnion
