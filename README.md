@@ -22,6 +22,7 @@ Windows 10 Pro, version 1909
 
 #### R Dependencies (tested and recommended)
 
+``` r
 R >= 4.1.0  
 dplyr >= 1.0.9
 data.table >= 1.14.2  
@@ -34,6 +35,7 @@ ggplot2 >= 3.3.6
 ComplexHeatmap >= 2.8.0  
 circlize >= 0.4.14      
 ggalluvial >= 0.12.3  
+```
 
 ## Installation
 
@@ -42,7 +44,7 @@ You can install the development version of NeuronChat like so:
 ``` r
 devtools::install_github("Wei-BioMath/NeuronChat")
 ```
-The time required for installation depends on pre-installed dependencies and the typical time is within 10~20 mins. It's highly recommended to install the dependencies indicated above before installing NeuronChat. 
+The time required for installation depends on pre-installed dependencies and the typical time is within 10~20 mins. It's recommended to install the dependencies indicated above before installing NeuronChat. 
 
 ## Tutorial 
 
