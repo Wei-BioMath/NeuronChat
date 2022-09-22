@@ -16,7 +16,8 @@ macOS Big Sur, Version 11.5.1
 Windows 10 Pro, version 1909
 #### R Dependencies (tested and recommended)
 R >= 4.1.0  
-dplyr >= 1.0.9  
+dplyr >= 1.0.9
+data.table >= 1.14.2  
 CellChat >= 1.1.3  
 Seurat >= 4.1.0  
 SeuratObject >= 4.1.0  
