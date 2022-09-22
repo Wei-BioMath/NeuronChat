@@ -7,14 +7,21 @@
 The goal of NeuronChat is to infer, visualize and analyze neural-specific cell-cell communication from single cell transcriptomics 
 
 ## System Requirements
+
 ### Hardware requirements
+
 NeuronChat requires a  standard computer and enough memory is recommended to handle large single-cell transcriptomic datasets. 
+
 ### Software requirements
+
 #### Operating System Requirements
+
 The package has been tested on the following systems: 
 macOS Big Sur, Version 11.5.1
 Windows 10 Pro, version 1909
+
 #### R Dependencies (tested and recommended)
+
 R >= 4.1.0  
 dplyr >= 1.0.9
 data.table >= 1.14.2  
