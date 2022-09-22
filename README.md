@@ -47,7 +47,7 @@ You can install the development version of NeuronChat like so:
 ``` r
 devtools::install_github("Wei-BioMath/NeuronChat")
 ```
-The time required for installation depends on pre-installed dependencies and the typical time is within 10~20 mins. It's recommended to install the dependencies indicated above before installing NeuronChat. 
+The time required for installation depends on pre-installed dependencies and the typical time is within 10~15 mins. It's recommended to install the dependencies indicated above before installing NeuronChat. 
 
 ## Tutorial 
 
