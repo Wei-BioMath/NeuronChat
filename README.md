@@ -14,7 +14,7 @@ NeuronChat requires a  standard computer and enough memory is recommended to han
 
 ### Software requirements
 
-#### - Operating System Requirements
+####  * Operating System Requirements
 
 The package has been tested on the following systems: 
 
@@ -23,7 +23,7 @@ macOS Big Sur, Version 11.5.1
 Windows 10 Pro, version 1909  
 ```
 
-#### - R Dependencies (tested and recommended)
+#### * R Dependencies (tested and recommended)
 
 ``` r
 R >= 4.1.0  
