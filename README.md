@@ -15,17 +15,17 @@ The package has been tested on the following systems:
 macOS Big Sur, Version 11.5.1
 Windows 10 Pro, version 1909
 #### R Dependencies (tested and recommended)
-R >= 4.1.0
-dplyr >= 1.0.9
-CellChat >= 1.1.3
-Seurat >= 4.1.0
-SeuratObject >= 4.1.0
-NMF >= 0.23.0
-igraph >= 1.3.4
-ggplot2 >= 3.3.6
-ComplexHeatmap >= 2.8.0
+R >= 4.1.0  
+dplyr >= 1.0.9  
+CellChat >= 1.1.3  
+Seurat >= 4.1.0  
+SeuratObject >= 4.1.0  
+NMF >= 0.23.0  
+igraph >= 1.3.4  
+ggplot2 >= 3.3.6  
+ComplexHeatmap >= 2.8.0  
 circlize >= 0.4.14      
-ggalluvial >= 0.12.3
+ggalluvial >= 0.12.3  
 
 ## Installation
 
