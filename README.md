@@ -30,8 +30,10 @@ netVisual_circle_neuron(net_aggregated_x)
 ```
 ### Full tutorials
 A set of tutorials of NeuronChat are as follows:
-- 
-- [Update the NeuronChat interaction database]()
+
+- [Inference, visualization and analysis of neural-specific communication network](https://htmlpreview.github.io/?https://github.com/Wei-BioMath/NeuronChat/blob/main/vignettes/NeuronChat-Tutorial.html)
+- [Analysis of spatial datasets & calculation of spatially constrained communication network](https://htmlpreview.github.io/?https://github.com/Wei-BioMath/NeuronChat/blob/main/vignettes/Spatial_analysis.html)
+- [Update the NeuronChat interaction database](https://htmlpreview.github.io/?https://github.com/Wei-BioMath/NeuronChat/blob/main/vignettes/Update_NeuronChat_database.html)
 
 Please check the vignettes directory of the repo (or click [this link](https://htmlpreview.github.io/?https://github.com/Wei-BioMath/NeuronChat/blob/main/vignettes/NeuronChat-Tutorial.html
 )). 
