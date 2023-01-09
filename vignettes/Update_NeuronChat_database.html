@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<!-- saved from url=(0130)file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+<meta name="generator" content="pandoc">
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>Update_NeuronChat_database</title>
+
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css">
+
+
+
+
+<script type="text/javascript" src="./Update_NeuronChat_database_files/MathJax.js"></script><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 5px 0px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; -khtml-border-radius: 5px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 1px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: .7em}
+.MathJax_MenuRadioCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuLabel {padding: 1px 2em 3px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #DDDDDD; margin: 4px 3px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: #606872; color: white}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style></head>
+
+<body><div id="MathJax_Message" style="display: none;"></div>
+
+
+
+
+<h1 class="title toc-ignore">Update_NeuronChat_database</h1>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(NeuronChat)</span>
+<span id="cb1-2"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Loading required package: dplyr</span></span>
+<span id="cb1-3"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: package 'dplyr' was built under R version 4.1.2</span></span>
+<span id="cb1-4"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-5"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
+<span id="cb1-6"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
+<span id="cb1-7"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-8"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     filter, lag</span></span>
+<span id="cb1-9"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
+<span id="cb1-10"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-11"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
+<span id="cb1-12"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Loading required package: igraph</span></span>
+<span id="cb1-13"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: package 'igraph' was built under R version 4.1.2</span></span>
+<span id="cb1-14"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-15"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Attaching package: 'igraph'</span></span>
+<span id="cb1-16"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from 'package:dplyr':</span></span>
+<span id="cb1-17"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-18"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     as_data_frame, groups, union</span></span>
+<span id="cb1-19"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
+<span id="cb1-20"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-21"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     decompose, spectrum</span></span>
+<span id="cb1-22"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The following object is masked from 'package:base':</span></span>
+<span id="cb1-23"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-24"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     union</span></span>
+<span id="cb1-25"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Loading required package: ggplot2</span></span>
+<span id="cb1-26"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: package 'ggplot2' was built under R version 4.1.2</span></span>
+<span id="cb1-27"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: replacing previous import 'data.table::dcast' by 'reshape2::dcast' when</span></span>
+<span id="cb1-28"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; loading 'NeuronChat'</span></span>
+<span id="cb1-29"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: replacing previous import 'data.table::melt' by 'reshape2::melt' when</span></span>
+<span id="cb1-30"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; loading 'NeuronChat'</span></span></code></pre></div>
+<div id="create-neuronchat-object-using-orignal-database-optional-but-for-comparison-with-updated-database" class="section level2">
+<h2>Create NeuronChat object using orignal database (optional but for comparison with updated database)</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load example data: cortex data from Yao 2021, processed</span></span>
+<span id="cb2-2"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="at">list=</span><span class="st">'cortex_data'</span>)</span>
+<span id="cb2-3"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># subset the data by choosing the region VISp</span></span>
+<span id="cb2-4"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb2-4" aria-hidden="true" tabindex="-1"></a>region_name <span class="ot">&lt;-</span> <span class="st">'VISp'</span>; cell_class <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">table</span>(meta<span class="sc">$</span>class_label))</span>
+<span id="cb2-5"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb2-5" aria-hidden="true" tabindex="-1"></a>cell_idx <span class="ot">&lt;-</span> <span class="fu">which</span>(meta<span class="sc">$</span>region_label <span class="sc">%in%</span> region_name <span class="sc">&amp;</span> meta<span class="sc">$</span>class_label <span class="sc">%in%</span> cell_class <span class="sc">&amp;</span> <span class="sc">!</span>(meta<span class="sc">$</span>subclass_label <span class="sc">%in%</span><span class="fu">c</span>(<span class="st">'Car3'</span>,<span class="st">'CR'</span>,<span class="st">'DG'</span>,<span class="st">'L2/3 IT PPP'</span>,<span class="st">'L5/6 IT TPE-ENT'</span>)))</span>
+<span id="cb2-6"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb2-6" aria-hidden="true" tabindex="-1"></a>target_df_single  <span class="ot">&lt;-</span> target_df[cell_idx,] <span class="co"># a data frame: row  cell, column gene (the last column is the cell subclass)</span></span>
+<span id="cb2-7"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># creat NeuronChat object; choose the database 'mouse' for mouse data; 'human' for human data</span></span>
+<span id="cb2-9"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># note that the first parameter should be a numeric matrix with row gene and column cell</span></span>
+<span id="cb2-10"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb2-10" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">createNeuronChat</span>(<span class="fu">t</span>(<span class="fu">as.matrix</span>(target_df_single[,<span class="dv">1</span><span class="sc">:</span>(<span class="fu">dim</span>(target_df_single)[<span class="dv">2</span>]<span class="sc">-</span><span class="dv">1</span>)])),<span class="at">DB=</span><span class="st">'mouse'</span>,<span class="at">group.by =</span> target_df_single<span class="sc">$</span>cell_subclass)</span>
+<span id="cb2-11"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Create a NeuronChat object from a data matrix</span></span></code></pre></div>
+</div>
+<div id="access-and-update-the-current-neuronchat-interaction-database" class="section level2">
+<h2>Access and update the current NeuronChat interaction database</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># database is stored in the `DB` slot of NeuronChat object </span></span>
+<span id="cb3-2"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-2" aria-hidden="true" tabindex="-1"></a>DB <span class="ot">&lt;-</span> x<span class="sc">@</span>DB</span>
+<span id="cb3-3"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># view the number of entries in current database</span></span>
+<span id="cb3-4"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(DB) </span>
+<span id="cb3-5"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 183</span></span>
+<span id="cb3-6"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># another way to access the database;  replace 'mouse' to 'human' for human data </span></span>
+<span id="cb3-8"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="at">list=</span><span class="st">'interactionDB_mouse'</span>); DB <span class="ot">&lt;-</span> <span class="fu">eval</span>(<span class="fu">parse</span>(<span class="at">text =</span> <span class="st">'interactionDB_mouse'</span>))</span>
+<span id="cb3-9"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># add one entry of user defined interaction pair to DB via function `update_interactionDB`</span></span>
+<span id="cb3-11"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># user needs to provide  interaction_name (character), lig_contributor (a vector of genes), receptor_subunit (a vector of genes), </span></span>
+<span id="cb3-12"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># We show this functionality by applying it to the interaction between glutamate  &amp; </span></span>
+<span id="cb3-13"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># the AMPA receptor (e.g., subunit composition is Gria1:Gria2:Gria3 = 1:2:1) </span></span>
+<span id="cb3-14"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Contributing genes of glutamate are Gls for synthesis and Slc17a6, Slc17a7, Slc17a8 for vesicular transport</span></span>
+<span id="cb3-15"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Receptor subunits of AMPA are Gria1, Gria2, Gria3 </span></span>
+<span id="cb3-16"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-16" aria-hidden="true" tabindex="-1"></a>interaction_name <span class="ot">&lt;-</span> <span class="st">'Glu_AMPA'</span></span>
+<span id="cb3-17"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-17" aria-hidden="true" tabindex="-1"></a>lig_contributor <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'Gls'</span>,<span class="st">'Slc17a6'</span>,<span class="st">'Slc17a7'</span>,<span class="st">'Slc17a8'</span>)</span>
+<span id="cb3-18"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-18" aria-hidden="true" tabindex="-1"></a>receptor_subunit <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'Gria1'</span>, <span class="st">'Gria2'</span>, <span class="st">'Gria3'</span>)</span>
+<span id="cb3-19"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-19" aria-hidden="true" tabindex="-1"></a>lig_contributor_group <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>) <span class="co"># 'Gls' corresponds to group 1; 'Slc17a6','Slc17a7','Slc17a8' correspond to group 2 (redundant for vesicular transport)</span></span>
+<span id="cb3-20"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-20" aria-hidden="true" tabindex="-1"></a>lig_contributor_coeff <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>) <span class="co"># stoichiometry coefficients (or weights) for groups in uniuqe(lig_contributor_group)</span></span>
+<span id="cb3-21"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-21" aria-hidden="true" tabindex="-1"></a>receptor_subunit_group <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>) <span class="co"># 1 for Gria1, 2 for Gria2, and 3 for Gria3</span></span>
+<span id="cb3-22"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-22" aria-hidden="true" tabindex="-1"></a>receptor_subunit_coeff <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>) <span class="co"># subunit composition is Gria1:Gria2:Gria3 = 1:2:1</span></span>
+<span id="cb3-23"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-23" aria-hidden="true" tabindex="-1"></a>DB_new <span class="ot">&lt;-</span> <span class="fu">update_interactionDB</span>(DB,<span class="at">interaction_name=</span>interaction_name,<span class="at">lig_contributor=</span>lig_contributor,receptor_subunit,</span>
+<span id="cb3-24"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-24" aria-hidden="true" tabindex="-1"></a>                               <span class="at">interaction_type=</span><span class="st">'user_defined'</span>,<span class="at">ligand_type=</span><span class="st">'user_defined'</span>,</span>
+<span id="cb3-25"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-25" aria-hidden="true" tabindex="-1"></a>                               <span class="at">lig_contributor_group=</span>lig_contributor_group,<span class="at">lig_contributor_coeff=</span>lig_contributor_coeff,</span>
+<span id="cb3-26"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-26" aria-hidden="true" tabindex="-1"></a>                               <span class="at">receptor_subunit_group=</span>receptor_subunit_group,<span class="at">receptor_subunit_coeff=</span>receptor_subunit_coeff)</span>
+<span id="cb3-27"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(DB_new)</span>
+<span id="cb3-28"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 184</span></span>
+<span id="cb3-29"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-29" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(DB_new<span class="sc">$</span>Glu_AMPA) <span class="co"># view the newly added entries</span></span>
+<span id="cb3-30"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; List of 14</span></span>
+<span id="cb3-31"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ interaction_name      : chr "Glu_AMPA"</span></span>
+<span id="cb3-32"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ lig_contributor       : chr [1:4] "Gls" "Slc17a6" "Slc17a7" "Slc17a8"</span></span>
+<span id="cb3-33"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ receptor_subunit      : chr [1:3] "Gria1" "Gria2" "Gria3"</span></span>
+<span id="cb3-34"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ lig_contributor_group : num [1:4] 1 2 2 2</span></span>
+<span id="cb3-35"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ lig_contributor_coeff : num [1:2] 1 1</span></span>
+<span id="cb3-36"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ receptor_subunit_group: num [1:3] 1 2 3</span></span>
+<span id="cb3-37"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ receptor_subunit_coeff: num [1:3] 1 2 1</span></span>
+<span id="cb3-38"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ targets_up            : chr(0) </span></span>
+<span id="cb3-39"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ targets_down          : chr(0) </span></span>
+<span id="cb3-40"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ activator             : chr(0) </span></span>
+<span id="cb3-41"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ inhibitor             : chr(0) </span></span>
+<span id="cb3-42"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ interactors           : chr(0) </span></span>
+<span id="cb3-43"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ interaction_type      : chr "user_defined"</span></span>
+<span id="cb3-44"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ ligand_type           : chr "user_defined"</span></span>
+<span id="cb3-45"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-46"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-46" aria-hidden="true" tabindex="-1"></a><span class="co"># assign the updated database to `interactionDB_mouse`</span></span>
+<span id="cb3-47"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb3-47" aria-hidden="true" tabindex="-1"></a>interactionDB_mouse <span class="ot">&lt;-</span> DB_new</span></code></pre></div>
+</div>
+<div id="create-neuronchat-object-using-the-updated-database" class="section level2">
+<h2>Create NeuronChat object using the updated database</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb4-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">createNeuronChat</span>(<span class="fu">t</span>(<span class="fu">as.matrix</span>(target_df_single[,<span class="dv">1</span><span class="sc">:</span>(<span class="fu">dim</span>(target_df_single)[<span class="dv">2</span>]<span class="sc">-</span><span class="dv">1</span>)])),<span class="at">DB=</span><span class="st">'mouse'</span>,<span class="at">group.by =</span> target_df_single<span class="sc">$</span>cell_subclass)</span>
+<span id="cb4-2"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Create a NeuronChat object from a data matrix</span></span>
+<span id="cb4-3"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb4-3" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(y<span class="sc">@</span>DB<span class="sc">$</span>Glu_AMPA) <span class="co"># check the newly added entries </span></span>
+<span id="cb4-4"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; List of 14</span></span>
+<span id="cb4-5"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ interaction_name      : chr "Glu_AMPA"</span></span>
+<span id="cb4-6"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ lig_contributor       : chr [1:4] "Gls" "Slc17a6" "Slc17a7" "Slc17a8"</span></span>
+<span id="cb4-7"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ receptor_subunit      : chr [1:3] "Gria1" "Gria2" "Gria3"</span></span>
+<span id="cb4-8"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ lig_contributor_group : num [1:4] 1 2 2 2</span></span>
+<span id="cb4-9"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ lig_contributor_coeff : num [1:2] 1 1</span></span>
+<span id="cb4-10"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ receptor_subunit_group: num [1:3] 1 2 3</span></span>
+<span id="cb4-11"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ receptor_subunit_coeff: num [1:3] 1 2 1</span></span>
+<span id="cb4-12"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ targets_up            : chr(0) </span></span>
+<span id="cb4-13"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ targets_down          : chr(0) </span></span>
+<span id="cb4-14"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ activator             : chr(0) </span></span>
+<span id="cb4-15"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ inhibitor             : chr(0) </span></span>
+<span id="cb4-16"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ interactors           : chr(0) </span></span>
+<span id="cb4-17"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ interaction_type      : chr "user_defined"</span></span>
+<span id="cb4-18"><a href="file:///private/var/folders/nd/d0g7qxqs79v7hbgj0mwnwcmw0000gn/T/RtmpPGXEMi/preview-82d46aa2b5e.dir/Update_NeuronChat_database.html#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ ligand_type           : chr "user_defined"</span></span></code></pre></div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+
+
+</body></html>
