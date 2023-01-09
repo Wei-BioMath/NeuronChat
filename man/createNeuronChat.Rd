@@ -15,16 +15,13 @@ createNeuronChat(
 )
 }
 \arguments{
-\item{object}{a normalized (NOT count) data matrix (genes by cells), Seurat or SingleCellExperiment object}
+\item{object}{a normalized (NOT count) data matrix (genes by cells)}
 
-\item{meta}{a data frame (rows are cells with rownames) consisting of cell information, which will be used for defining cell groups.
-If input is a Seurat or SingleCellExperiment object, the meta data in the object will be used}
+\item{meta}{a data frame (rows are cells with rownames) consisting of cell information, which will be used for defining cell groups.}
 
-\item{group.by}{a char name of the variable in meta data, defining cell groups.
-If input is a data matrix and group.by is NULL, the input \code{meta} should contain a column named 'labels',
-If input is a Seurat or SingleCellExperiment object, USER must provide \code{group.by} to define the cell groups. e.g, group.by = "ident" for Seurat object}
+\item{group.by}{a vector to indicate group annotations of cells}
 
-\item{assay}{Assay to use when the input is a Seurat object. NB: The data in the \code{integrated} assay is not suitable for CellChat analysis because it contains negative values.}
+\item{assay}{Assay to use when the input is a Seurat object.}
 
 \item{do.sparse}{whether use sparse format}
 }

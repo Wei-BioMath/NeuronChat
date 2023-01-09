@@ -1,0 +1,158 @@
+---
+title: "Spatial_analysis"
+author: "Wei Zhao"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Spatial_analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+knitr::opts_chunk$set(fig.width=5, fig.height=5,fig.align = "center") 
+```
+
+```{r setup}
+library(NeuronChat)
+```
+## Analysis of three spatial datasets
+### Download processed data for the three datasets via the [link](https://github.com/Wei-BioMath/NeuronChatAnalysis2022/tree/main/Analysis_of_spatial_datasets) 
+
+### MERFISH dataset plus scRNA-seq 
+```{r fig08, fig.height = 5, fig.width = 10}
+## MERFISH, 2021, https://www.nature.com/articles/s41586-021-03705-x
+load("/Users/weizhao/Documents/NeuronChat-ST/ST_datasets_processed/MERFISH/visual_spatial_MERFISH.rda") # using your own path
+set.seed(123)
+x <- createNeuronChat(t(mat_sc),DB='mouse',group.by = as.character(meta_sc$subclass_label)) # input data should be gene by cell matrix 
+x <- run_NeuronChat(x,M=100)
+net_aggregated_x <- net_aggregation(x@net,method = 'weight')
+net <- net_aggregated_x/max(net_aggregated_x)
+# only keep top10 links with highest total weight
+net_sort <- sort(net,index.return	=T,decreasing = T)
+net_top10 <-net*0;net_top10[net_sort$ix[1:10]] <-net[net_sort$ix[1:10]]
+# save(mat_sc,meta_sc, meta, net, net_top10,file='visual_spatial_MERFISH.rda')
+
+# circle plot of communication network 
+par(mfrow=c(1,2))
+library(scales);colours <- hue_pal()(dim(net)[1]);
+netVisual_circle_neuron(net,edge.width.max = 10,color.use = colours,vertex.label.cex = 1.5)
+netVisual_circle_neuron(net_top10,edge.width.max = 10,color.use = colours,vertex.label.cex = 1.5)
+```
+
+```{r fig07, fig.height = 5, fig.width = 7}
+# spatial map of cell types
+spatialMap(meta,celltype_label = 'cell_type',centroid_x = 'sdimx',centroid_y = 'sdimy',pt.size = 1,pt.alpha = 0.8) + labs(x ="x coordinate", y = "y coordinate",color='Glutamatergic \n subclass')
+```
+### seqFISH+ dataset
+```{r fig06, fig.height = 5, fig.width = 10}
+## seqFISH+, 2019, https://www.nature.com/articles/s41586-019-1049-y
+load("/Users/weizhao/Documents/NeuronChat-ST/ST_datasets_processed/SeqFISH/visual_spatial_seqFISH.rda")
+set.seed(123)
+x <- createNeuronChat(mat,DB='mouse',group.by = as.character(meta$cell_type))
+x <- run_NeuronChat(x,M=100,strict = 0) # use strict=0 to allow calculation for interaction pairs with missing genes, e.g., 'Gls' is missing from this dataset
+net_aggregated_x <- net_aggregation(x@net,method = 'weight')
+net <- net_aggregated_x/max(net_aggregated_x)
+# only keep top10 links with highest total weight
+net_sort <- sort(net,index.return	=T,decreasing = T)
+net_top10 <-net*0;net_top10[net_sort$ix[1:10]] <-net[net_sort$ix[1:10]]
+# save(mat,meta, net, net_top10,file='visual_spatial_seqFISH.rda')
+
+# circle plot of communication network
+par(mfrow=c(1,2))
+library(scales);colours <- hue_pal()(dim(net)[1]);
+netVisual_circle_neuron(net,edge.width.max = 10,color.use = colours,vertex.label.cex = 1.5)
+netVisual_circle_neuron(net_top10,edge.width.max = 10,color.use = colours,vertex.label.cex = 1.5)
+```
+
+```{r fig05, fig.height = 5, fig.width = 7}
+# spatial map of cell types
+spatialMap(meta,celltype_label = 'cell_type',centroid_x = 'sdimx',centroid_y = 'sdimy',pt.size = 5,pt.alpha = 0.8) + labs(x ="x coordinate", y = "y coordinate",color='cell type')
+```
+### Visium dataset
+```{r}
+## Visium, 2020, https://support.10xgenomics.com/spatial-gene-expression/datasets/1.1.0/V1_Adult_Mouse_Brain
+load("/Users/weizhao/Documents/NeuronChat-ST/ST_datasets_processed/Visium/visual_spatial_Visium.rda")
+set.seed(123)
+x <- createNeuronChat(mat,DB='mouse',group.by = as.character(meta$cell_type))
+x <- run_NeuronChat(x,M=100)
+net_aggregated_x <- net_aggregation(x@net,method = 'weight')
+net <- net_aggregated_x/max(net_aggregated_x)
+net <- net[levels(meta$cell_type),levels(meta$cell_type)]
+net_sort <- sort(net,index.return	=T,decreasing = T)
+net_top10 <-net*0;net_top10[net_sort$ix[1:10]] <-net[net_sort$ix[1:10]]
+```
+
+```{r fig04, fig.height = 5, fig.width = 10}
+par(mfrow=c(1,2))
+library(scales);colours <- hue_pal()(dim(net)[1]);colours <- colours[c(3,2,1,4,5,6,7)] 
+netVisual_circle_neuron(net,edge.width.max = 10,color.use = colours,vertex.label.cex = 1.5)
+netVisual_circle_neuron(net_top10,edge.width.max = 10,color.use = colours,vertex.label.cex = 1.5)
+```
+
+```{r fig03, fig.height = 5, fig.width = 7}
+# save(mat,meta, net, net_top10,file='visual_spatial_Visium.rda')
+spatialMap(meta,celltype_label = 'cell_type',centroid_x = 'sdimx',centroid_y = 'sdimy',pt.size = 2,pt.alpha = 1) + labs(x ="x coordinate", y = "y coordinate",color='spot cluster')
+```
+```
+## Spatially constrained communication network (download data via the [link](https://github.com/Wei-BioMath/NeuronChatAnalysis2022/tree/main/Tutorial_for_spatially_constrained_network))
+### data preparation 
+```{r}
+setwd('/Users/weizhao/Documents/NeuronChat-ST/MERFISH/processed_data/')
+# locations and cell type annotations of MERFISH for MOp 
+loc_centroid_subset <- readRDS('meta_MERFISH.rds')
+# scRNA-seq data for MOp, with cell type annotations
+MOp_sc_list <- readRDS(file = 'MOp_sc_list.rds')
+MOp_sc_list$meta_sc$subclass_label <- sub(' CTX','',MOp_sc_list$meta_sc$subclass_label)
+cell_type_use <- unique(MOp_sc_list$meta_sc$subclass_label)
+cell_type_use_merfish <- unique(loc_centroid_subset$subclass)
+
+# cell types shared by MERFISH & scRNA-seq
+cell_type_shared <- sort(intersect(cell_type_use_merfish,cell_type_use),method='radix')
+cell_type_shared <- cell_type_shared[8:12] ## i.e., c("Lamp5","Pvalb","Sncg","Sst","Vip")
+```
+### Calculation of spatial proximity for pairwise cell types 
+```{r} 
+# subsetting MERFISH meta data for single slice ('mouse1_slice212') and cell_type_shared
+meta_single_slice <- loc_centroid_subset[loc_centroid_subset$slice_id=='mouse1_slice212' & loc_centroid_subset$subclass %in% cell_type_shared,]
+# calculating cell proximity enrichment score for single slice 
+cell_proximity <- cell_proximity_enrichment_score_single(meta_single_slice,celltype_label='subclass',centroid_x='centroid_x', centroid_y='centroid_y', 
+                                       thresh_dist=400,permutation_number=1000)
+
+# subsetting MERFISH meta data for cell_type_shared but all slices
+meta_all_slices  <- loc_centroid_subset[loc_centroid_subset$subclass %in% cell_type_shared,]
+# calculating cell proximity enrichment score for multiple slices (taking a little long time)
+cell_proximity <- cell_proximity_enrichment_score_multiple(meta_all_slices,celltype_label='subclass',centroid_x='centroid_x', centroid_y='centroid_y', slice_id='slice_id',
+                                       thresh_dist=400,permutation_number=1000)
+# circle plot of cell proximity 
+library(scales);colours <- hue_pal()(length(cell_type_shared)+1);  colours[3] <- 'purple';colours[4] <- 'green'; 
+netVisual_proximity(cell_proximity$log2CPscore_mtx,color.use = colours[1:5])
+```
+
+```{r fig02, fig.height = 5, fig.width = 7}
+# barplot of cell proximity
+barplot_proximity(cell_proximity$CPScore_df)
+```
+### NeuronChat analysis + filtering the network by cell proximity information
+```{r fig01, fig.height = 5, fig.width = 10}
+GABA_idx <- which(MOp_sc_list$meta_sc$subclass_label %in% cell_type_shared);
+MOp_sc_GABA <- MOp_sc_list$MOp_sc[GABA_idx,]
+meta_sc_GABA <- MOp_sc_list$meta_sc[GABA_idx,]
+x <- createNeuronChat(t(MOp_sc_GABA),DB='mouse',group.by = meta_sc_GABA$subclass_label);
+x <- run_NeuronChat(x,M=100)
+net_aggregated_x <- net_aggregation(x@net,method = 'weight')
+par(mfrow=c(1,2))
+# original network
+netVisual_circle_neuron(net_aggregated_x, color.use = colours[1:5],vertex.size.max = 10,vertex.label.cex=1.5,edge.width.max=10)
+# spatially constrained network (by filtering out links with cell proximity enrichment scores (stored in cell_proximity$log2CPscore_mtx as a matrix form) lower than 0)
+netVisual_circle_neuron(net_aggregated_x*(cell_proximity$log2CPscore_mtx>0), color.use = colours[1:5],vertex.size.max = 10,vertex.label.cex=1.5,edge.width.max=10)
+```
+```{r fig00, fig.height = 5, fig.width = 10}
+# spatialMap & spatial distribution 
+p1 <- spatialMap(meta_single_slice,celltype_label='subclass',centroid_x='centroid_x', centroid_y='centroid_y', pt.size=1,pt.alpha=0.8,font.size=20,legend.symbol.size=5)
+p2 <- spatialDistribution(meta_single_slice, celltype_label='subclass',centroid='centroid_y', curve.alpha=0.5,font.size=20,legend.symbol.size=5)
+p1+p2
+```

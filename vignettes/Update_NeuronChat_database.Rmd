@@ -1,0 +1,73 @@
+---
+title: "Update_NeuronChat_database"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Update_NeuronChat_database}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(NeuronChat)
+```
+## Create NeuronChat object using orignal database (optional but for comparison with updated database)
+```{r}
+# load example data: cortex data from Yao 2021, processed
+data(list='cortex_data')
+# subset the data by choosing the region VISp
+region_name <- 'VISp'; cell_class <- names(table(meta$class_label))
+cell_idx <- which(meta$region_label %in% region_name & meta$class_label %in% cell_class & !(meta$subclass_label %in%c('Car3','CR','DG','L2/3 IT PPP','L5/6 IT TPE-ENT')))
+target_df_single  <- target_df[cell_idx,] # a data frame: row  cell, column gene (the last column is the cell subclass)
+
+# creat NeuronChat object; choose the database 'mouse' for mouse data; 'human' for human data
+# note that the first parameter should be a numeric matrix with row gene and column cell
+x <- createNeuronChat(t(as.matrix(target_df_single[,1:(dim(target_df_single)[2]-1)])),DB='mouse',group.by = target_df_single$cell_subclass)
+```
+## Access and update the current NeuronChat interaction database
+```{r}
+# database is stored in the `DB` slot of NeuronChat object 
+DB <- x@DB
+# view the number of entries in current database
+length(DB) 
+
+# another way to access the database;  replace 'mouse' to 'human' for human data 
+data(list='interactionDB_mouse'); DB <- eval(parse(text = 'interactionDB_mouse'))
+
+# add one entry of user defined interaction pair to DB via function `update_interactionDB`
+# user needs to provide  interaction_name (character), lig_contributor (a vector of genes), receptor_subunit (a vector of genes), 
+# We show this functionality by applying it to the interaction between glutamate  & 
+# the AMPA receptor (e.g., subunit composition is Gria1:Gria2:Gria3 = 1:2:1) 
+# Contributing genes of glutamate are Gls for synthesis and Slc17a6, Slc17a7, Slc17a8 for vesicular transport
+# Receptor subunits of AMPA are Gria1, Gria2, Gria3 
+interaction_name <- 'Glu_AMPA'
+lig_contributor <- c('Gls','Slc17a6','Slc17a7','Slc17a8')
+receptor_subunit <- c('Gria1', 'Gria2', 'Gria3')
+lig_contributor_group <- c(1,2,2,2) # 'Gls' corresponds to group 1; 'Slc17a6','Slc17a7','Slc17a8' correspond to group 2 (redundant for vesicular transport)
+lig_contributor_coeff <- c(1,1) # stoichiometry coefficients (or weights) for groups in uniuqe(lig_contributor_group)
+receptor_subunit_group <- c(1,2,3) # 1 for Gria1, 2 for Gria2, and 3 for Gria3
+receptor_subunit_coeff <- c(1,2,1) # subunit composition is Gria1:Gria2:Gria3 = 1:2:1
+DB_new <- update_interactionDB(DB,interaction_name=interaction_name,lig_contributor=lig_contributor,receptor_subunit,
+                               interaction_type='user_defined',ligand_type='user_defined',
+                               lig_contributor_group=lig_contributor_group,lig_contributor_coeff=lig_contributor_coeff,
+                               receptor_subunit_group=receptor_subunit_group,receptor_subunit_coeff=receptor_subunit_coeff)
+length(DB_new)
+dplyr::glimpse(DB_new$Glu_AMPA) # view the newly added entries
+
+# assign the updated database to `interactionDB_mouse`
+interactionDB_mouse <- DB_new
+```
+
+## Create NeuronChat object using the updated database
+```{r}
+y <- createNeuronChat(t(as.matrix(target_df_single[,1:(dim(target_df_single)[2]-1)])),DB='mouse',group.by = target_df_single$cell_subclass)
+dplyr::glimpse(y@DB$Glu_AMPA) # check the newly added entries 
+```
+
+

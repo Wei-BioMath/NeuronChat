@@ -4,7 +4,7 @@
 \alias{cal_expr_by_group}
 \title{Calculate the average gene expression by cell group}
 \usage{
-cal_expr_by_group(df, gene_used)
+cal_expr_by_group(df, gene_used, mean_method = NULL)
 }
 \arguments{
 \item{df}{a data frame or data.table containing signaling gene expression (row: cell; column: genes; the last column is cell group labels)}

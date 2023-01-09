@@ -20,7 +20,7 @@ setClassUnion(name = 'AnyDF', members = c("data.frame", "data.table"))
 #' @slot meta data frame storing the information associated with each cell
 #' @slot idents a factor defining the cell identity used for all analysis. It becomes a list for a merged NeuronChat object
 #' @slot dr List of the reduced 2D coordinates, one per method, e.g., umap/tsne/dm
-#' @slot options List of miscellaneous data, such as parameters used throughout analysis, and a indicator whether the CellChat object is a single or merged
+#' @slot options List of miscellaneous data, such as parameters used throughout analysis, and a indicator whether the NeuronChat object is a single or merged
 #' @slot fc deprecated
 #' @slot info information flow of each ligand-target pair
 #' @slot ligand.abundance ligand.abundance of sending cell groups (row) for ligand-target pairs (column)
@@ -50,19 +50,17 @@ NeuronChat <- methods::setClass("NeuronChat",
 
 #' Create a new NeuronChat object from a data matrix
 #' Create a new NeuronChat object from a data matrix; adapted from CellChat https://github.com/sqjin/CellChat
-#' @param object a normalized (NOT count) data matrix (genes by cells), Seurat or SingleCellExperiment object
+#' @param object a normalized (NOT count) data matrix (genes by cells)
 #' @param meta a data frame (rows are cells with rownames) consisting of cell information, which will be used for defining cell groups.
-#' If input is a Seurat or SingleCellExperiment object, the meta data in the object will be used
-#' @param group.by a char name of the variable in meta data, defining cell groups.
-#' If input is a data matrix and group.by is NULL, the input `meta` should contain a column named 'labels',
-#' If input is a Seurat or SingleCellExperiment object, USER must provide `group.by` to define the cell groups. e.g, group.by = "ident" for Seurat object
-#' @param assay Assay to use when the input is a Seurat object. NB: The data in the `integrated` assay is not suitable for CellChat analysis because it contains negative values.
+#' @param group.by a vector to indicate group annotations of cells
+#' @param assay Assay to use when the input is a Seurat object.
 #' @param do.sparse whether use sparse format
 # #' @param data is deprecated. Use `object`
 #'
 #' @return
 #' @export
 #' @importFrom methods as new
+#' @importFrom Matrix t
 #' @examples
 createNeuronChat <- function(object, DB=c('mouse','human'),meta = NULL, group.by = NULL, assay = NULL, do.sparse = T) {
   DB <- match.arg(DB)
@@ -78,9 +76,8 @@ createNeuronChat <- function(object, DB=c('mouse','human'),meta = NULL, group.by
   #   data <- as(data, "dgCMatrix")
   # }
   # signaling data
-  # interactionDB <- readRDS('interactionDB_interactor.rds')
   DB_filename <- paste('interactionDB_',DB,sep='')
-  data(list=DB_filename)
+  # data(list=DB_filename)
   interactionDB <- eval(parse(text = DB_filename))
   # interactionDB <- readRDS(DB_filename)
 
@@ -93,7 +90,7 @@ createNeuronChat <- function(object, DB=c('mouse','human'),meta = NULL, group.by
   }
   signaling_gene <- unique(signaling_gene)
   signaling_gene <- signaling_gene[signaling_gene %in% rownames(data)]
-  data.signaling <- as.data.frame(t(data[signaling_gene,]))
+  data.signaling <- as.data.frame(Matrix::t(data[signaling_gene,]))
   data.signaling <- data.signaling/max(data.signaling) # normalized to range [0,1]
   data.signaling$cell_subclass <- group.by
 
@@ -248,17 +245,24 @@ mergeNeuronChat<- function(object.list, add.names = NULL, merge.data = FALSE, ce
 #' @export
 #'
 #' @examples
-cal_expr_by_group <- function(df,gene_used) {
+cal_expr_by_group <- function(df,gene_used,mean_method=NULL) {
+  df_used <- df[,c(gene_used,'cell_subclass')]
+  if(is.null(mean_method)){
   q = c(.25, .5, .75)
   # ind_used <- which(gene_used %in% colnames(target_df))
   # ind_used <- c(ind_used,dim(target_df)[2])
   # target_used <- target_df[,ind_used]
-  df_used <- df[,c(gene_used,'cell_subclass')]
   q1 <- setDT(df_used)[, lapply(.SD, quantile,q[1]), keyby = cell_subclass]
   q2 <- setDT(df_used)[, lapply(.SD, quantile,q[2]), keyby = cell_subclass]
   q3 <- setDT(df_used)[, lapply(.SD, quantile,q[3]), keyby = cell_subclass]
   yy <- 0.25*q1[,gene_used,with=FALSE]+0.5*q2[,gene_used,with=FALSE]+0.25*q3[,gene_used,with=FALSE]
   rownames(yy) <- q1$cell_subclass
+  } else if(mean_method=='mean') {
+  yy <- setDT(df_used)[, lapply(.SD, mean), keyby = cell_subclass]
+  xx <- yy[,gene_used,with=FALSE]
+  rownames(xx) <- yy$cell_subclass
+  yy <- xx
+  }
   return(yy)
 }
 # scPalette <- function(n) {
@@ -287,104 +291,141 @@ cal_expr_by_group <- function(df,gene_used) {
 #' @param targets_down deprecated
 #' @param targets_nichenet deprecated
 #' @param N deprecated
-#' @param K deprecated
+#' @param K Hill coefficient for CellChat modeling method
 #'
 #' @return
 #' @export
 #'
 #' @examples
-cal_prob_mtx_downstream <- function(df,sender,receiver,lig_contributor_new,lig_contributor_group,lig_contributor_coeff,receptor_subunit_new,receptor_subunit_group,receptor_subunit_coeff,targets_up,targets_down,targets_nichenet,N,K){
+cal_prob_mtx_downstream <- function(df,sender,receiver,lig_contributor_new,lig_contributor_group,lig_contributor_coeff,receptor_subunit_new,receptor_subunit_group,receptor_subunit_coeff,targets_up,targets_down,targets_nichenet,N,K=0.5,method=NULL,mean_method=NULL){
   gene_used <- c(lig_contributor_new,receptor_subunit_new)
-  expr_gene <- cal_expr_by_group(df,gene_used)
+  expr_gene <- cal_expr_by_group(df,gene_used,mean_method)
   cell.rownames <- rownames(expr_gene)
   expr_gene <- as.data.frame(expr_gene)
   #lig_contributor_expr <- apply(expr_gene[1:length(lig_contributor_new)],MARGIN = 1, function(x) exp(mean(log(x))))
   cellgroup_number <- dim(expr_gene)[1]
-  # ligand
-  lig_contributor_expr_tmp <- matrix(0,cellgroup_number,length(lig_contributor_coeff))
-  for(i in 1:length(lig_contributor_coeff)){
-    ind_i <- which(lig_contributor_group==i)
-    if(length(ind_i)==1){
-      lig_contributor_expr_tmp[1:cellgroup_number,i] <- expr_gene[1:cellgroup_number,ind_i]
-    } else {
-      lig_contributor_expr_tmp[1:cellgroup_number,i] <- apply(expr_gene[1:cellgroup_number,ind_i],MARGIN = 1, function(x) mean(x))
-    }
-  }
-  if(length(lig_contributor_coeff)>1){
-    rep_coeff <- rep(1:length(lig_contributor_coeff),lig_contributor_coeff)
-    lig_contributor_expr <- apply(lig_contributor_expr_tmp[,rep_coeff], MARGIN = 1, function(x) exp(mean(log(x))))} else {
-      lig_contributor_expr <- lig_contributor_expr_tmp
-    }
-  names(lig_contributor_expr) <- cell.rownames
-  # receptor
-  receptor_subunit_expr_tmp <- matrix(0,cellgroup_number,length(receptor_subunit_coeff))
-  for(i in 1:length(receptor_subunit_coeff)){
-    ind_i <- which(receptor_subunit_group==i)
-    if(length(ind_i)==1){
-      receptor_subunit_expr_tmp[1:cellgroup_number,i] <- expr_gene[1:cellgroup_number,length(lig_contributor_new)+ind_i]
-    } else {
-      receptor_subunit_expr_tmp[1:cellgroup_number,i] <- apply(expr_gene[1:cellgroup_number,length(lig_contributor_new)+ind_i],MARGIN = 1, function(x) mean(x))
-    }
-  }
-  if(length(receptor_subunit_coeff)>1){
-    rep_coeff <- rep(1:length(receptor_subunit_coeff),receptor_subunit_coeff)
-    receptor_subunit_expr <- apply(receptor_subunit_expr_tmp[,rep_coeff], MARGIN = 1, function(x) exp(mean(log(x))))} else {
-      receptor_subunit_expr <- receptor_subunit_expr_tmp
-    }
-  names(receptor_subunit_expr) <- cell.rownames
-  # targets_up
   targets_up_avg <- rep(0,cellgroup_number)
-  if(length(targets_up)>0){
-    targets_up_expr <- as.data.frame(cal_expr_by_group(df,targets_up))
-    targets_up_max <- apply(targets_up_expr,2,FUN = max)
-    targets_up_nonzero <- which(targets_up_max>0)
-    if(length(targets_up_nonzero)>0){
-      targets_up_avg <- apply(targets_up_expr[,targets_up_nonzero,drop=FALSE],1,FUN = mean)}
-  }
-  # targets_down
   targets_down_avg <- rep(0,cellgroup_number)
-  if(length(targets_down)>0){
-    targets_down_expr <- as.data.frame(cal_expr_by_group(df,targets_down))
-    targets_down_max <- apply(targets_down_expr,2,FUN = max)
-    targets_down_nonzero <- which(targets_down_max>0)
-    if(length(targets_down_nonzero)>0){
-      targets_down_avg <- apply(targets_down_expr[,targets_down_nonzero,drop=FALSE],1,FUN = mean)}
-  }
-
   targets_nichenet_avg <- rep(0,cellgroup_number)
-  if(length(targets_nichenet)>0){
-    targets_nichenet <- targets_nichenet[1:N]
-    targets_nichenet_expr <- cal_expr_by_group(df,names(targets_nichenet))
-    targets_nichenet_max <- apply(targets_nichenet_expr,2,FUN = max)
-    # targets_nichenet_nonzero <- which(targets_nichenet_max>0)
-    # if(length(targets_nichenet_nonzero)>0){
-    targets_nichenet_avg <- as.matrix(targets_nichenet_expr[,names(targets_nichenet),with=FALSE]) %*% as.matrix(targets_nichenet/sum(targets_nichenet))#}
+  if(is.null(method)){
+    # ligand
+    lig_contributor_expr_tmp <- matrix(0,cellgroup_number,length(lig_contributor_coeff))
+    for(i in 1:length(lig_contributor_coeff)){
+      ind_i <- which(lig_contributor_group==i)
+      if(length(ind_i)==1){
+        lig_contributor_expr_tmp[1:cellgroup_number,i] <- expr_gene[1:cellgroup_number,ind_i]
+      } else if(length(ind_i)>1) {
+        lig_contributor_expr_tmp[1:cellgroup_number,i] <- apply(expr_gene[1:cellgroup_number,ind_i],MARGIN = 1, function(x) mean(x))
+      } else {
+        lig_contributor_expr_tmp[1:cellgroup_number,i] <- 1
+      }
+    }
+    if(length(lig_contributor_coeff)>1){
+      rep_coeff <- rep(1:length(lig_contributor_coeff),lig_contributor_coeff)
+      lig_contributor_expr <- apply(lig_contributor_expr_tmp[,rep_coeff], MARGIN = 1, function(x) exp(mean(log(x))))} else {
+        lig_contributor_expr <- lig_contributor_expr_tmp
+      }
+    names(lig_contributor_expr) <- cell.rownames
+    # receptor
+    receptor_subunit_expr_tmp <- matrix(0,cellgroup_number,length(receptor_subunit_coeff))
+    for(i in 1:length(receptor_subunit_coeff)){
+      ind_i <- which(receptor_subunit_group==i)
+      if(length(ind_i)==1){
+        receptor_subunit_expr_tmp[1:cellgroup_number,i] <- expr_gene[1:cellgroup_number,length(lig_contributor_new)+ind_i]
+      } else if(length(ind_i)>1) {
+        receptor_subunit_expr_tmp[1:cellgroup_number,i] <- apply(expr_gene[1:cellgroup_number,length(lig_contributor_new)+ind_i],MARGIN = 1, function(x) mean(x))
+      } else {
+        receptor_subunit_expr_tmp[1:cellgroup_number,i] <- 1
+      }
+    }
+    if(length(receptor_subunit_coeff)>1){
+      rep_coeff <- rep(1:length(receptor_subunit_coeff),receptor_subunit_coeff)
+      receptor_subunit_expr <- apply(receptor_subunit_expr_tmp[,rep_coeff], MARGIN = 1, function(x) exp(mean(log(x))))} else {
+        receptor_subunit_expr <- receptor_subunit_expr_tmp
+      }
+    names(receptor_subunit_expr) <- cell.rownames
+    # # targets_up
+    # if(length(targets_up)>0){
+    #   targets_up_expr <- as.data.frame(cal_expr_by_group(df,targets_up,mean_method))
+    #   targets_up_max <- apply(targets_up_expr,2,FUN = max)
+    #   targets_up_nonzero <- which(targets_up_max>0)
+    #   if(length(targets_up_nonzero)>0){
+    #     targets_up_avg <- apply(targets_up_expr[,targets_up_nonzero,drop=FALSE],1,FUN = mean)}
+    # }
+    # # targets_down
+    # if(length(targets_down)>0){
+    #   targets_down_expr <- as.data.frame(cal_expr_by_group(df,targets_down,mean_method ))
+    #   targets_down_max <- apply(targets_down_expr,2,FUN = max)
+    #   targets_down_nonzero <- which(targets_down_max>0)
+    #   if(length(targets_down_nonzero)>0){
+    #     targets_down_avg <- apply(targets_down_expr[,targets_down_nonzero,drop=FALSE],1,FUN = mean)}
+    # }
+    #
+    # # targets_nichenet_avg <- rep(0,cellgroup_number)
+    # if(length(targets_nichenet)>0){
+    #   targets_nichenet <- targets_nichenet[1:N]
+    #   targets_nichenet_expr <- cal_expr_by_group(df,names(targets_nichenet),mean_method)
+    #   targets_nichenet_max <- apply(targets_nichenet_expr,2,FUN = max)
+    #   # targets_nichenet_nonzero <- which(targets_nichenet_max>0)
+    #   # if(length(targets_nichenet_nonzero)>0){
+    #   targets_nichenet_avg <- as.matrix(targets_nichenet_expr[,names(targets_nichenet),with=FALSE]) %*% as.matrix(targets_nichenet/sum(targets_nichenet))#}
+    # }
+    # compute prob_mtx without downstream weight
+    prob_mtx0 <- ((as.matrix(lig_contributor_expr))%*%t(as.matrix(receptor_subunit_expr)))
+    colnames(prob_mtx0) <- cell.rownames
+    rownames(prob_mtx0) <- cell.rownames
+    # # downstream weight
+    # exp_prob_mtx0 <- prob_mtx0^2/(prob_mtx0^2+1) #exp(-1/prob_mtx0);
+    # targets_up_weight <- rep(1,cellgroup_number)%*%t(targets_up_avg);
+    # # exp_targets_up_weight <- exp(-1/targets_up_weight)
+    # # exp_targets_up_weight <- 0.01+exp_targets_up_weight*exp_prob_mtx0/(exp_prob_mtx0+exp_targets_up_weight+1e-16)
+    # targets_up_weight <- 1+prob_mtx0*targets_up_weight^1/(targets_up_weight^1+prob_mtx0+1e-6)#*(length(targets_up_avg))^0.5
+    # targets_down_weight <- rep(1,cellgroup_number)%*%t(targets_down_avg);
+    # # exp_targets_down_weight <- exp(-targets_down_weight)
+    # # exp_targets_down_weight <- exp_targets_down_weight*exp_prob_mtx0/(exp_prob_mtx0+exp_targets_down_weight+1e-16)
+    # targets_down_weight <- 1-targets_down_weight^1/(targets_down_weight^1+prob_mtx0+1e-6)
+    # targets_nichenet_weight <- rep(1,cellgroup_number)%*%t(targets_nichenet_avg);
+    # targets_nichenet_weight <- 1+1*prob_mtx0*targets_nichenet_weight^1/(targets_nichenet_weight^1+prob_mtx0+1e-6)
+    # #targets_nichenet_weight <- prob_mtx0*targets_nichenet_weight^1/(targets_nichenet_weight^1+prob_mtx0+1e-6)
+    # # compute prob_mtx with downstream weight
+    # # prob_mtx <- prob_mtx0^1*targets_up_weight*targets_down_weight
+    # prob_mtx <- prob_mtx0^1*targets_nichenet_weight
+    prob_mtx <- prob_mtx0
+  } else if(method=='CellChat'){
+    if(length(lig_contributor_new)>1){
+      lig_contributor_expr <- apply(expr_gene[1:cellgroup_number,lig_contributor_new],MARGIN = 1, function(x) exp(mean(log(x))))
+    } else {  lig_contributor_expr <- expr_gene[1:cellgroup_number,lig_contributor_new] }
+    if(length(receptor_subunit_new)>1){
+      receptor_subunit_expr <- apply(expr_gene[1:cellgroup_number,receptor_subunit_new], MARGIN = 1, function(x) exp(mean(log(x))))
+    } else {   receptor_subunit_expr <- expr_gene[1:cellgroup_number,receptor_subunit_new]}
+    names(lig_contributor_expr) <- cell.rownames
+    names(receptor_subunit_expr) <- cell.rownames
+    prob_mtx0 <- ((as.matrix(lig_contributor_expr))%*%t(as.matrix(receptor_subunit_expr)))
+    hill <- function(x,K){
+      return(x^2/(x^2+K^2))
+    }
+    prob_mtx0 <- hill((as.matrix(lig_contributor_expr)),K)%*%hill(t(as.matrix(receptor_subunit_expr)),K)
+    colnames(prob_mtx0) <- cell.rownames
+    rownames(prob_mtx0) <- cell.rownames
+    prob_mtx <- prob_mtx0
+  } else if(method=='CellPhoneDB'){
+    if(length(lig_contributor_new)>1){
+      lig_contributor_expr <- apply(expr_gene[1:cellgroup_number,lig_contributor_new],MARGIN = 1, function(x) min(x))
+    } else {  lig_contributor_expr <- expr_gene[1:cellgroup_number,lig_contributor_new] }
+    if(length(receptor_subunit_new)>1){
+      receptor_subunit_expr <- apply(expr_gene[1:cellgroup_number,receptor_subunit_new], MARGIN = 1, function(x) min(x))
+    } else {   receptor_subunit_expr <- expr_gene[1:cellgroup_number,receptor_subunit_new]}
+    names(lig_contributor_expr) <- cell.rownames
+    names(receptor_subunit_expr) <- cell.rownames
+    prob_mtx0_lig <- as.matrix(lig_contributor_expr)%*%matrix(rep(1,length(cell.rownames)),nrow = 1,ncol = length(cell.rownames))
+    prob_mtx0_rec <- matrix(rep(1,length(cell.rownames)),nrow = length(cell.rownames),ncol =1 )%*%t(as.matrix(receptor_subunit_expr))
+    # prob_mtx0 <- ((as.matrix(lig_contributor_expr))%*%matrix(rep(1,length(cell.rownames)),nrow = 1,ncol = length(cell.rownames))+ matrix(rep(1,length(cell.rownames)),nrow = length(cell.rownames),ncol =1 )%*%t(as.matrix(receptor_subunit_expr)))
+    prob_mtx0 <- (prob_mtx0_lig+ prob_mtx0_rec)/2
+    prob_mtx0 <- prob_mtx0*(prob_mtx0_lig>0)*(prob_mtx0_rec>0)
+    colnames(prob_mtx0) <- cell.rownames
+    rownames(prob_mtx0) <- cell.rownames
+    prob_mtx <- prob_mtx0
   }
-
-  # compute prob_mtx without downstream weight
-  prob_mtx0 <- ((as.matrix(lig_contributor_expr))%*%t(as.matrix(receptor_subunit_expr)))
-  # hill <- function(x,K){
-  #   return(x^2/(x^2+K^2))
-  # }
-  # prob_mtx0 <- hill((as.matrix(lig_contributor_expr)),K)%*%hill(t(as.matrix(receptor_subunit_expr)),K)
-  colnames(prob_mtx0) <- cell.rownames
-  rownames(prob_mtx0) <- cell.rownames
-  # downstream weight
-  exp_prob_mtx0 <- prob_mtx0^2/(prob_mtx0^2+1) #exp(-1/prob_mtx0);
-  targets_up_weight <- rep(1,cellgroup_number)%*%t(targets_up_avg);
-  # exp_targets_up_weight <- exp(-1/targets_up_weight)
-  # exp_targets_up_weight <- 0.01+exp_targets_up_weight*exp_prob_mtx0/(exp_prob_mtx0+exp_targets_up_weight+1e-16)
-  targets_up_weight <- 1+prob_mtx0*targets_up_weight^1/(targets_up_weight^1+prob_mtx0+1e-6)#*(length(targets_up_avg))^0.5
-  targets_down_weight <- rep(1,cellgroup_number)%*%t(targets_down_avg);
-  # exp_targets_down_weight <- exp(-targets_down_weight)
-  # exp_targets_down_weight <- exp_targets_down_weight*exp_prob_mtx0/(exp_prob_mtx0+exp_targets_down_weight+1e-16)
-  targets_down_weight <- 1-targets_down_weight^1/(targets_down_weight^1+prob_mtx0+1e-6)
-  targets_nichenet_weight <- rep(1,cellgroup_number)%*%t(targets_nichenet_avg);
-  targets_nichenet_weight <- 1+1*prob_mtx0*targets_nichenet_weight^1/(targets_nichenet_weight^1+prob_mtx0+1e-6)
-  #targets_nichenet_weight <- prob_mtx0*targets_nichenet_weight^1/(targets_nichenet_weight^1+prob_mtx0+1e-6)
-  # compute prob_mtx with downstream weight
-  # prob_mtx <- prob_mtx0^1*targets_up_weight*targets_down_weight
-  prob_mtx <- prob_mtx0^1*targets_nichenet_weight
   rownames(prob_mtx) <- cell.rownames
   colnames(prob_mtx) <- cell.rownames
   prob_mtx <- prob_mtx[sender,receiver]
@@ -421,7 +462,7 @@ cal_prob_mtx_downstream <- function(df,sender,receiver,lig_contributor_new,lig_c
 #'
 #' @examples
 neuron_chat_downstream <- function(df,sender,receiver,interaction_name,lig_contributor,lig_contributor_group,lig_contributor_coeff,
-                                   receptor_subunit,receptor_subunit_group,receptor_subunit_coeff,targets_up,targets_down,targets_nichenet,N,M,fdr,K){
+                                   receptor_subunit,receptor_subunit_group,receptor_subunit_coeff,targets_up,targets_down,targets_nichenet,N,M,fdr,K=0.5,method=NULL,mean_method=NULL){
   ind_lig <- which(lig_contributor %in% colnames(df));lig_contributor_new <- lig_contributor[ind_lig]
   ind_re <- which(receptor_subunit %in% colnames(df));receptor_subunit_new <- receptor_subunit[ind_re]
   lig_contributor_group <- lig_contributor_group[ind_lig]
@@ -429,7 +470,7 @@ neuron_chat_downstream <- function(df,sender,receiver,interaction_name,lig_contr
   targets_up <- targets_up[which(targets_up %in% colnames(df))]
   targets_down <- targets_down[which(targets_down %in% colnames(df))]
   targets_nichenet <- targets_nichenet[which(names(targets_nichenet) %in% colnames(df))]
-  my_list <- cal_prob_mtx_downstream(df,sender,receiver,lig_contributor_new,lig_contributor_group,lig_contributor_coeff, receptor_subunit_new,receptor_subunit_group,receptor_subunit_coeff,targets_up,targets_down,targets_nichenet,N,K)
+  my_list <- cal_prob_mtx_downstream(df,sender,receiver,lig_contributor_new,lig_contributor_group,lig_contributor_coeff, receptor_subunit_new,receptor_subunit_group,receptor_subunit_coeff,targets_up,targets_down,targets_nichenet,N,K,method,mean_method)
   prob_mtx <- my_list$prob_mtx
   # FC.lig <- log2(max(my_list$ligand_score+1e-3)/min(my_list$ligand_score+1e-3))
   # FC.rec <- log2(max(my_list$receptor_score+1e-3)/min(my_list$receptor_score+1e-3))
@@ -453,7 +494,7 @@ neuron_chat_downstream <- function(df,sender,receiver,interaction_name,lig_contr
     prob_mtx_permutation <- sapply(seq_along(1:M), function(j) {
       df_j$cell_subclass[df$cell_subclass %in% sender] <- sample(df$cell_subclass[df$cell_subclass %in% sender],length(df$cell_subclass[df$cell_subclass %in% sender]), FALSE)
       df_j$cell_subclass[df$cell_subclass %in% receiver] <- sample(df$cell_subclass[df$cell_subclass %in% receiver],length(df$cell_subclass[df$cell_subclass %in% receiver]), FALSE)
-      my_list_temp <- cal_prob_mtx_downstream(df_j,sender,receiver,lig_contributor_new,lig_contributor_group,lig_contributor_coeff,receptor_subunit_new,receptor_subunit_group,receptor_subunit_coeff,targets_up,targets_down,targets_nichenet,N,K)
+      my_list_temp <- cal_prob_mtx_downstream(df_j,sender,receiver,lig_contributor_new,lig_contributor_group,lig_contributor_coeff,receptor_subunit_new,receptor_subunit_group,receptor_subunit_coeff,targets_up,targets_down,targets_nichenet,N,K,method,mean_method)
       prob_mtx_permutation_j <- (my_list_temp$prob_mtx > prob_mtx)*1
       prob_mtx_permutation_j
     },simplify = 'array')
@@ -536,12 +577,13 @@ neuron_chat_downstream <- function(df,sender,receiver,interaction_name,lig_contr
 #' @param fdr cutoff value that determines the significance of detected link
 #' @param N deprecated
 #' @param K deprecated
+#' @param strict indicating whether the calculation of communication score for an ligand-target pair requires that input data include at least one gene for each contributing gene group. strict=1 means 'require',  strict=0 means not 'require'. Default value is 1
 #'
 #' @return
 #' @export
 #'
 #' @examples
-run_NeuronChat <- function(object=object,sender=NULL,receiver=NULL,N=0,M=100,fdr=0.05,K=0.1){
+run_NeuronChat <- function(object=object,sender=NULL,receiver=NULL,N=0,M=100,fdr=0.05,K=0.5,method=NULL,mean_method=NULL,strict=1){
 start.time <- Sys.time()
 # interactionDB <- readRDS('interactionDB_interactor.rds')
 # interactionDB <- interactionDB_interactor_full_synGO
@@ -574,12 +616,23 @@ for(j in 1:length(interactionDB)){
     # targets_nichenet <- sort(ligand_target_matrix_mgi[,receptor_subunit],decreasing = T)
     targets_nichenet <- character(0)
   #} else {targets_nichenet <- character(0)}
-  if(prod((c(lig_contributor,receptor_subunit) %in% names(object@data.signaling)))==0){net_all[[j]]=matrix(0,nrow=length(sender),ncol=length(receiver),
-                                                                                                 dimnames=list(sender,receiver))
+  lig_boolean_group <- (lig_contributor %in% names(object@data.signaling))*lig_contributor_group;
+  rec_boolean_group <- (receptor_subunit %in% names(object@data.signaling))*receptor_subunit_group;
+  if(strict==1){
+    lig_boolean <- prod(unique(lig_contributor_group) %in% lig_boolean_group)
+    rec_boolean <- prod(unique(receptor_subunit_group) %in% rec_boolean_group)
+  } else {
+    lig_boolean <- sum(unique(lig_contributor_group) %in% lig_boolean_group)>0
+    rec_boolean <- sum(unique(receptor_subunit_group) %in% rec_boolean_group)>0
+  }
+  if(prod(lig_boolean,rec_boolean)==0){net_all[[j]]=matrix(0,nrow=length(sender),ncol=length(receiver),
+                                                                                                dimnames=list(sender,receiver))
+  #if(prod((c(lig_contributor,receptor_subunit) %in% names(object@data.signaling)))==0){net_all[[j]]=matrix(0,nrow=length(sender),ncol=length(receiver),
+  #                                                                                               dimnames=list(sender,receiver))
   net0_all[[j]] <- net_all[[j]]
   pvalue_all[[j]] <- net_all[[j]]
   } else
-  {tmp <- neuron_chat_downstream(object@data.signaling,sender,receiver,interaction_name,lig_contributor,lig_contributor_group,lig_contributor_coeff,receptor_subunit,receptor_subunit_group,receptor_subunit_coeff,targets_up,targets_down,targets_nichenet,N,M,fdr,K)
+  {tmp <- neuron_chat_downstream(object@data.signaling,sender,receiver,interaction_name,lig_contributor,lig_contributor_group,lig_contributor_coeff,receptor_subunit,receptor_subunit_group,receptor_subunit_coeff,targets_up,targets_down,targets_nichenet,N,M,fdr,K,method,mean_method)
   net_all[[j]] <- tmp$net
   net0_all[[j]] <- tmp$net0
   pvalue_all[[j]] <- tmp$pvalue

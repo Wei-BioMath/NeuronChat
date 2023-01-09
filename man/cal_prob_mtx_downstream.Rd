@@ -18,7 +18,9 @@ cal_prob_mtx_downstream(
   targets_down,
   targets_nichenet,
   N,
-  K
+  K = 0.5,
+  method = NULL,
+  mean_method = NULL
 )
 }
 \arguments{
@@ -48,7 +50,7 @@ cal_prob_mtx_downstream(
 
 \item{N}{deprecated}
 
-\item{K}{deprecated}
+\item{K}{Hill coefficient for CellChat modeling method}
 }
 \value{
 

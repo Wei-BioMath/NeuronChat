@@ -21,7 +21,9 @@ neuron_chat_downstream(
   N,
   M,
   fdr,
-  K
+  K = 0.5,
+  method = NULL,
+  mean_method = NULL
 )
 }
 \arguments{

@@ -35,7 +35,7 @@ The key slots used in the NeuronChat object are described below; adapted from Ce
 
 \item{\code{dr}}{List of the reduced 2D coordinates, one per method, e.g., umap/tsne/dm}
 
-\item{\code{options}}{List of miscellaneous data, such as parameters used throughout analysis, and a indicator whether the CellChat object is a single or merged}
+\item{\code{options}}{List of miscellaneous data, such as parameters used throughout analysis, and a indicator whether the NeuronChat object is a single or merged}
 
 \item{\code{fc}}{deprecated}
 

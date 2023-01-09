@@ -12,7 +12,8 @@ netVisual_chord_neuron(
   interaction_use = "all",
   group = NULL,
   sender.names = NULL,
-  receiver.names = NULL
+  receiver.names = NULL,
+  lab.cex = 1.3
 )
 }
 \arguments{

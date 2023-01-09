@@ -2,12 +2,12 @@
 % Please edit documentation in R/visualization.R
 \name{lig_tar_heatmap}
 \alias{lig_tar_heatmap}
-\title{A set of plots illustrating the communication network as well as violin plots for related genes for single ligand-target pair
-A set of plots illustrating the communication network as well as violin plots for related genes for single ligand-target pair}
+\title{A set of plots illustrating the communication network as well as violin plots for related genes for single ligand-target pair}
 \usage{
 lig_tar_heatmap(
   object,
   interaction_name,
+  width.vector = c(0.3, 0.34, 0.31),
   sender.names = NULL,
   receiver.names = NULL
 )
@@ -25,6 +25,5 @@ lig_tar_heatmap(
 
 }
 \description{
-A set of plots illustrating the communication network as well as violin plots for related genes for single ligand-target pair
 A set of plots illustrating the communication network as well as violin plots for related genes for single ligand-target pair
 }

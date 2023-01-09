@@ -20,6 +20,9 @@ usethis::use_package("ggplot2")
 
 
 
-usethis::use_vignette("NeuronChat-tmp")
+usethis::use_vignette("Update_NeuronChat_database")
+usethis::use_vignette("Spatial_analysis")
 usethis::use_readme_md(open = rlang::is_interactive())
 rmarkdown::html_document()
+
+roxygen2::roxygenise()

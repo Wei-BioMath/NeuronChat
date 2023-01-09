@@ -11,7 +11,10 @@ run_NeuronChat(
   N = 0,
   M = 100,
   fdr = 0.05,
-  K = 0.1
+  K = 0.5,
+  method = NULL,
+  mean_method = NULL,
+  strict = 1
 )
 }
 \arguments{
@@ -28,6 +31,8 @@ run_NeuronChat(
 \item{fdr}{cutoff value that determines the significance of detected link}
 
 \item{K}{deprecated}
+
+\item{strict}{indicating whether the calculation of communication score for an ligand-target pair requires that input data include at least one gene for each contributing gene group. strict=1 means 'require',  strict=0 means not 'require'. Default value is 1}
 }
 \value{
 

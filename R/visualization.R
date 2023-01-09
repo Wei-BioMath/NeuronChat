@@ -191,11 +191,11 @@ netVisual_circle_neuron <-function(net_ori, color.use = NULL,group=NULL,title.na
                                    edge.weight.max = NULL, edge.width.max=5, alpha.edge = 0.6, label.edge = FALSE,edge.label.color='black',edge.label.cex=0.8,
                                    edge.curved=0.2,shape=NULL,layout=in_circle(), margin=0.2, vertex.size = NULL,
                                    arrow.width=1,arrow.size = 0.8){
-  color.use = NULL;title.name = NULL; sources.use = NULL; targets.use = NULL; remove.isolate = FALSE; top = 1;
-  weight.scale = TRUE; vertex.weight = 1; vertex.weight.max = NULL; vertex.size.max = NULL; vertex.label.cex=1;vertex.label.color= "black";
-  edge.weight.max = NULL; edge.width.max=5; alpha.edge = 0.6; label.edge = FALSE;edge.label.color='black';edge.label.cex=0.8;
-  edge.curved=0.2;shape='circle';layout=in_circle(); margin=0.2; vertex.size = NULL;
-  arrow.width=1;arrow.size = 0.2
+  # color.use = NULL;title.name = NULL; sources.use = NULL; targets.use = NULL; remove.isolate = FALSE; top = 1;
+  # weight.scale = TRUE; vertex.weight = 1; vertex.weight.max = NULL; vertex.size.max = NULL; vertex.label.cex=1;vertex.label.color= "black";
+  # edge.weight.max = NULL; edge.width.max=5; alpha.edge = 0.6; label.edge = FALSE;edge.label.color='black';edge.label.cex=0.8;
+  # edge.curved=0.2;shape='circle';layout=in_circle(); margin=0.2; vertex.size = NULL;
+  # arrow.width=1;arrow.size = 0.2
   net.names <- unique(c(rownames(net_ori),colnames(net_ori)))
   net <- matrix(0,nrow=length(net.names),ncol=length(net.names))
   dimnames(net) <- list(net.names,net.names)
