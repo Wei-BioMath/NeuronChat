@@ -35,8 +35,7 @@ A set of tutorials of NeuronChat are as follows:
 - [Analysis of spatial datasets & calculation of spatially constrained communication network](https://htmlpreview.github.io/?https://github.com/Wei-BioMath/NeuronChat/blob/main/vignettes/Spatial_analysis.html)
 - [Update the NeuronChat interaction database](https://htmlpreview.github.io/?https://github.com/Wei-BioMath/NeuronChat/blob/main/vignettes/Update_NeuronChat_database.html)
 
-Please check the vignettes directory of the repo (or click [this link](https://htmlpreview.github.io/?https://github.com/Wei-BioMath/NeuronChat/blob/main/vignettes/NeuronChat-Tutorial.html
-)). 
+These tutorials can also be found in the [vignettes directory of the repo](https://github.com/Wei-BioMath/NeuronChat/tree/main/vignettes)
 
 ## System Requirements
 
