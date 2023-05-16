@@ -303,6 +303,7 @@ netVisual_circle_neuron <-function(net_ori, color.use = NULL,group=NULL,title.na
   igraph::E(g)$label.color<-edge.label.color
   igraph::E(g)$label.cex<-edge.label.cex
   igraph::E(g)$color<- grDevices::adjustcolor(igraph::V(g)$color[edge.start[,1]],alpha.edge)
+  igraph::E(g)$loop.angle <- rep(0, length(igraph::E(g)))
 
   if(sum(edge.start[,2]==edge.start[,1])!=0){
     igraph::E(g)$loop.angle[which(edge.start[,2]==edge.start[,1])]<-loop.angle[edge.start[which(edge.start[,2]==edge.start[,1]),1]]
@@ -520,6 +521,7 @@ netVisual_circle_compare <-function(net0,net1,color.use = NULL,group=NULL,title.
     igraph::E(g)[fp.ind]$lty <- 6
     igraph::E(g)[fp.ind]$width <- 4
   }
+  igraph::E(g)$loop.angle <- rep(0, length(igraph::E(g)))
   if(sum(edge.start[,2]==edge.start[,1])!=0){
     igraph::E(g)$loop.angle[which(edge.start[,2]==edge.start[,1])]<-loop.angle[edge.start[which(edge.start[,2]==edge.start[,1]),1]]
   }
