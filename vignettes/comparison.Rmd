@@ -1,0 +1,121 @@
+---
+title: "Comparative analysis of multiple datasets"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{comparison}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+knitr::opts_chunk$set(fig.width=6, fig.height=6,fig.align = "center") 
+```
+This vignette will show how to use NeuronChat to perform comparative analysis on multiple datasets, by taking the comparison between VISp and ALM as an example. 
+
+# Load NeuronChat library
+
+```{r setup}
+library(NeuronChat)
+library(CellChat)
+```
+
+# Part I: Create NeuronChat object list
+
+```{r}
+data(list='cortex_data') # including `target_df` and `meta`
+cortex_1K <- c('ALM','VISp')
+subclass_CTX <- names(table(meta$subclass_label[meta$class_label=='Glutamatergic']))[grep('CTX',names(table(meta$subclass_label[meta$class_label=='Glutamatergic'])))] # subset the Glutamatergic subclasses
+subclass_CTX
+set.seed(1234)
+cortex_list <- lapply(cortex_1K, function(y){
+  region_name <- y; cell_class <- 'Glutamatergic';if(is.null(cell_class)){cell_class <- names(table(meta$class_label))}
+  cell_idx <- which(meta$region_label %in% region_name & meta$class_label %in% cell_class & meta$subclass_label %in% subclass_CTX)
+  target_df_single  <- target_df[cell_idx,]
+  meta_tmp <- meta[cell_idx,];rownames(meta_tmp) <- meta_tmp$sample_name
+  x <- createNeuronChat( t(as.matrix(target_df_single[,1:(dim(target_df_single)[2]-1)])),DB='mouse',group.by =   target_df_single$cell_subclass,meta=meta_tmp);
+  x <- run_NeuronChat(x,M=100)
+  return(x)
+})
+names(cortex_list) <- cortex_1K
+```
+```{r fig0, fig.height = 5, fig.width = 10}
+# individually plotting the communication networks for VISp and ALM  
+par(mfrow=c(1,2))
+for(j in c(1,2)){
+  netVisual_circle_neuron(cortex_list[[j]]@net$Glu_Grin3a, title.name = paste('Glu_Grin3a -- ',names(cortex_list)[j]),arrow.size = 0.5,margin=0.3,edge.width.max=8)
+}
+par(mfrow=c(1,2))
+for(j in c(1,2)){
+  net_aggregated_x <- net_aggregation(cortex_list[[j]]@net,method='weight')
+  netVisual_circle_neuron(net_aggregated_x, title.name = names(cortex_list)[j],arrow.size = 0.5,margin=0.3,edge.width.max=8)
+}
+```
+
+# Part II: Merge the NeuronChat object list 
+
+```{r}
+neuronchat_list <- mergeNeuronChat(cortex_list, add.names = names(cortex_list))
+```
+
+# Part III: Barplots to compare link count and weight of interaction pairs between ALM and VISp
+
+```{r fig1, fig.height = 3, fig.width = 6}
+# overall communication
+p1 <- compareInteractions_Neuron(neuronchat_list,measure = c("weight"),comparison = c(1,2),group=c(1,2),show.legend = F)
+p2 <- compareInteractions_Neuron(neuronchat_list,measure = c("count"),comparison = c(1,2),group=c(1,2),show.legend = F )
+p1 + p2
+```
+
+```{r fig2, fig.height = 12, fig.width = 9}
+# communication for individual interaction pairs
+g1 <- rankNet_Neuron(neuronchat_list,mode='comparison',measure = c("count"),comparison = 1:2,do.stat = F,tol = 0.1,stacked = F,font.size = 11)
+g2 <- rankNet_Neuron(neuronchat_list,mode='comparison',measure = c("weight"),comparison = 1:2,do.stat = F,tol = 0.1,stacked = F,font.size = 11) 
+g1+g2
+```
+
+# Part IV: Shared and specific interaction patterns across ALM and VISp
+
+```{r fig3, fig.height = 4, fig.width = 5}
+# compute functional similarity 
+neuronchat_list <- computeNetSimilarityPairwise_Neuron(neuronchat_list, slot.name = "net", type = "functional",comparison = c(1,2))
+# manifold learning
+neuronchat_list <- netEmbedding(neuronchat_list,slot.name = "net_analysis", type = "functional",comparison = c(1,2))
+# clustering on interactions 
+neuronchat_list <- netClustering(neuronchat_list, slot.name = "net_analysis", type = "functional",comparison = c(1,2),k = 5)
+# visualization
+netVisual_embeddingPairwise_Neuron(neuronchat_list, slot.name = "net_analysis", type = "functional", label.size = 3.5,comparison=c(1,2),pathway.remove.show = FALSE,pathway.labeled = F)
+```
+
+```{r fig31, fig.height = 7, fig.width = 12}
+# visualization zoom in
+netVisual_embeddingPairwiseZoomIn_Neuron(neuronchat_list, slot.name = "net_analysis", type = "functional", label.size = 5,comparison=c(1,2),nCol=3)
+```
+
+```{r fig4, fig.height = 3.5, fig.width = 20} 
+# heatmap for each interaction pattern
+net12 <- neuronchat_list@net[c(1,2)]
+net1 <- net12[[1]];names(net1) <- paste(names(net1),'--ALM',sep='')
+net2 <- net12[[2]];names(net2) <- paste(names(net2),'--VISp',sep='')
+net12_list <- append(net1,net2)
+interaction_group <- neuronchat_list@net_analysis$similarity$functional$group$`1-2`
+hlist <- list();gb_heatmap <- list()
+library(grid); library(ComplexHeatmap);grid.newpage(); x_seq <- c(0,0.2,0.4,0.6,0.8)
+for(j in 1:length(sort(unique(interaction_group),decreasing = F))){
+  net_aggregated_group2 <- net_aggregation(net12_list[names(interaction_group[interaction_group==j])],method = 'weight')
+  library(RColorBrewer);col_map = brewer.pal(8,"YlOrBr");
+  h <- Heatmap(net_aggregated_group2, name = "Weight",
+                        col = col_map,
+                        cluster_rows = FALSE,cluster_columns=FALSE,
+                        row_names_side='left',column_names_side='bottom',
+                        row_title='Sender',row_title_side='left',
+                        row_title_gp = gpar(fontsize = 16),
+                        column_title='Receiver',column_title_side = "bottom",column_title_gp = gpar(fontsize = 16),column_names_rot = 60)
+  gb_heatmap[[j]] = grid.grabExpr(draw(h,column_title=paste('pattern cluster',j), padding = unit(c(2, 2, 2, 2), "mm")) )
+  pushViewport(viewport(x = x_seq[j], y = 1, width = 0.19, height = 1, just = c("left", "top"),xscale = c(0, 1), yscale = c(0, 1)));grid.draw(gb_heatmap[[j]]);popViewport()
+}
+```
+
