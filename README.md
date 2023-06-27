@@ -32,10 +32,16 @@ netVisual_circle_neuron(net_aggregated_x)
 A set of tutorials of NeuronChat are as follows:
 
 - [Inference, visualization and analysis of neural-specific communication network](https://htmlpreview.github.io/?https://github.com/Wei-BioMath/NeuronChat/blob/main/vignettes/NeuronChat-Tutorial.html)
+- [Comparative analysis of multiple datasets](https://htmlpreview.github.io/?https://github.com/Wei-BioMath/NeuronChat/blob/main/vignettes/comparison.html)
 - [Analysis of spatial datasets & calculation of spatially constrained communication network](https://htmlpreview.github.io/?https://github.com/Wei-BioMath/NeuronChat/blob/main/vignettes/Spatial_analysis.html)
 - [Update the NeuronChat interaction database](https://htmlpreview.github.io/?https://github.com/Wei-BioMath/NeuronChat/blob/main/vignettes/Update_NeuronChat_database.html)
 
 These tutorials can also be found in the [vignettes directory of the repo](https://github.com/Wei-BioMath/NeuronChat/tree/main/vignettes)
+
+See also the [repository](https://github.com/Wei-BioMath/NeuronChatAnalysis2022) for more details about repoducing the figures and results in the related study [(Zhao et al., _Nat_ _Commun._, 2023)](https://doi.org/10.1038/s41467-023-36800-w)
+
+### How to cite?
+Zhao, W., Johnston, K.G., Ren, H. et al. Inferring neuron-neuron communications from single-cell transcriptomics through NeuronChat. _Nat Commun_ 14, 1128 (2023). [https://doi.org/10.1038/s41467-023-36800-w](https://doi.org/10.1038/s41467-023-36800-w)
 
 ## System Requirements
 
@@ -78,5 +84,6 @@ Here are some instructions in case users might encounter issues during installat
 ` in the [README](https://github.com/sqjin/CellChat) of CellChat for any other issues (including `NMF` package installation). 
 - Install [ComplexHeatmap](https://github.com/jokergoo/ComplexHeatmap) using `devtools::install_github("jokergoo/ComplexHeatmap")`. 
 - Install [circlize](https://github.com/jokergoo/circlize) using `devtools::install_github("jokergoo/circlize")`. 
-- Please see the instructions for installation of `Seurat` or `SeuratObject` via the link [Seurat](https://satijalab.org/seurat/articles/install.html) or [SeuratObject](https://github.com/mojaveazure/seurat-object). 
+- Please see the instructions for installation of `Seurat` or `SeuratObject` via the link [Seurat](https://satijalab.org/seurat/articles/install.html) or [SeuratObject](https://github.com/mojaveazure/seurat-object).
+  
  
