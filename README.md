@@ -8,7 +8,7 @@ The goal of NeuronChat is to infer, visualize and analyze neural-specific cell-c
 
 ## Installation
 
-You can install the latest release version of NeuronChat like so:
+You can install the latest version of NeuronChat like so:
 
 ``` r
 devtools::install_github("Wei-BioMath/NeuronChat")
